@@ -2,6 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";  //New enhancement in react-dom package
 import Header from "./components/Header";
 import Body from "./components/Body";
+import { createBrowserRouter, RouterProvider,Outlet } from "react-router-dom";
+import AboutUsComponent from "./components/AboutUs";
+import Contact from "./components/Contact";
+import Error from "./components/Error";
+import RestaurantMenu from "./components/RestaurantMenu";
 //Create the following html using React.createElement
 {/* <div id="parent">
     <div id="class">
@@ -31,10 +36,35 @@ const App = () => {
     return(
         <div className="app">
              <Header/>
-             <Body/>
+             <Outlet/>
         </div>
     );
 }
+const appRouter = createBrowserRouter([
+    {
+        path:'/',
+        element: <App/>,
+        children:[
+            {
+                path:'/',
+                element: <Body/>
+            },
+            {
+                path:'/about',
+                element: <AboutUsComponent/>
+            },
+            {
+                path:'/contact',
+                element: <Contact/>
+            },
+            {
+                path:'/restaurants/:id',
+                element: <RestaurantMenu/>
+            }
+        ],
+        errorElement: <Error/>
+    }
+]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App/>);
+root.render(<RouterProvider router={appRouter}/>);
 
