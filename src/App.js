@@ -1,4 +1,4 @@
-import React from "react";
+import React,{lazy,Suspense} from "react";
 import ReactDOM from "react-dom/client";  //New enhancement in react-dom package
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -7,6 +7,7 @@ import AboutUsComponent from "./components/AboutUs";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
+import Shimmer from "./components/Shimmer";
 //Create the following html using React.createElement
 {/* <div id="parent">
     <div id="class">
@@ -32,6 +33,7 @@ import RestaurantMenu from "./components/RestaurantMenu";
 // If the root already contains any html then root.render command will replace that html with 'parent' element
 // that we have created above.
 // Any element written above and below 'root' will not be affected by root.render
+const Grocery = lazy(() => import("./components/Grocery"));
 const App = () => {
     return(
         <div className="app">
@@ -60,6 +62,14 @@ const appRouter = createBrowserRouter([
             {
                 path:'/restaurants/:id',
                 element: <RestaurantMenu/>
+            },
+            {
+                path:'/grocery',
+                element: (
+                    <Suspense fallback={<Shimmer/>}>
+                         <Grocery/>
+                    </Suspense>
+                )
             }
         ],
         errorElement: <Error/>
