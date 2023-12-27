@@ -1,4 +1,4 @@
-import React,{lazy,Suspense} from "react";
+import React,{lazy,Suspense,useState,useEffect} from "react";
 import ReactDOM from "react-dom/client";  //New enhancement in react-dom package
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import Shimmer from "./components/Shimmer";
+import UserContext from "./utils/UserContext";
 //Create the following html using React.createElement
 {/* <div id="parent">
     <div id="class">
@@ -33,13 +34,25 @@ import Shimmer from "./components/Shimmer";
 // If the root already contains any html then root.render command will replace that html with 'parent' element
 // that we have created above.
 // Any element written above and below 'root' will not be affected by root.render
+
 const Grocery = lazy(() => import("./components/Grocery"));
+
 const App = () => {
-    return(
-        <div className="app">
-             <Header/>
-             <Outlet/>
-        </div>
+    const [username, setUserName] = useState();
+    useEffect(() => {
+    //Authentication logic to fetch the data
+       const data = {
+        name: "Aishwarya Jaiswal"
+       }
+       setUserName(data.name);
+    },[])
+    return (
+        <UserContext.Provider value={{loggedInUser:username,setUserName}}>
+              <div className="app">
+               <Header/>
+               <Outlet/>
+              </div>
+        </UserContext.Provider>
     );
 }
 const appRouter = createBrowserRouter([

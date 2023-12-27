@@ -3,11 +3,17 @@ import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { withSwiggyOneLabel } from "./RestaurantCard";
+import UserContext from "../utils/UserContext";
+import { useContext } from "react";
  const Body = () => {
     const [listOfRestaurants,setListOfRestaurants] = useState([]);
     const [filteredRestaurants,setFilteredRestaurants] = useState([]);
     const [searchText,setSearchText] = useState("");
     const onlineStatus = useOnlineStatus();
+    const RestaurantCardSwiggyOne = withSwiggyOneLabel(RestaurantCard);
+    const { loggedInUser, setUserName } = useContext(UserContext);
+
 
     useEffect(()=>{
           fetchData();
@@ -16,10 +22,11 @@ import useOnlineStatus from "../utils/useOnlineStatus";
     const fetchData = async () => {
             const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
             const json = await response.json();
-            setListOfRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-            setFilteredRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            setListOfRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            setFilteredRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
-
+    
+    //loyaltyDiscoverPresentationInfo - Object
     if(onlineStatus === false){
         return(
          <h1>
@@ -49,10 +56,22 @@ import useOnlineStatus from "../utils/useOnlineStatus";
                         setFilteredRestaurants(filteredList);
                     }}>Top Rated Restaurants</button>
                 </div>
+                <div className="m-4">
+                   <label className="font-bold">Change Username</label>
+                   <input type="text" className="border border-solid border-black" value={loggedInUser}
+                    onChange={(e) => setUserName(e.target.value)}/>
+                </div>
             </div>
             <div className="flex flex-wrap">
                {filteredRestaurants.map((restaurant) =>{
-                    return <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}><RestaurantCard resData={restaurant}/></Link>;
+                    return (<Link key={restaurant.info.id} 
+                             to={"/restaurants/" + restaurant.info.id}>
+                                {
+                                    restaurant.info.isOpen ? <RestaurantCardSwiggyOne resData={restaurant}/> : 
+                                    <RestaurantCard resData={restaurant}/>
+                                }
+                             
+                            </Link>);
                 })}
             </div>
         </div>

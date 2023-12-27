@@ -10,7 +10,7 @@ const RestaurantCard = (props) => {
     costForTwo
    } = resData?.info;
     return(
-       <div className="w-56 p-5 m-3 bg-orange-200 rounded-lg hover:shadow-xl">
+       <div className="w-56 p-5 m-3 bg-gray-100 rounded-lg hover:shadow-xl">
            <img 
             alt="res-card" 
             className='rounded-lg'
@@ -22,6 +22,17 @@ const RestaurantCard = (props) => {
             <h4>{costForTwo}</h4>
        </div>
     );
+}
+
+export const withSwiggyOneLabel = (RestaurantCard) => {
+   return (props) => {
+      return (
+           <div className="swiggy-one-filter">
+             <label className="bg-orange-600 text-white absolute m-2 p-2 rounded-lg">Open</label>
+             <RestaurantCard {...props}/>
+           </div>
+      );
+   }
 }
 
 export default RestaurantCard;
