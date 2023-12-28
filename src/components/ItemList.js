@@ -1,4 +1,13 @@
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
+
 const ItemList = ({ item }) => {
+
+    const dispatch = useDispatch();
+    const handleClick = (item) => {
+        dispatch(addItem(item));
+    } 
+
     const {
         name,
         description,
@@ -6,7 +15,6 @@ const ItemList = ({ item }) => {
         defaultPrice,
         imageId
     } = item?.card?.info
-    console.log(imageId);
     return (
         <div className="p-2 m-2 border-b-2 border-gray-200">
             <div className="flex justify-between">
@@ -17,8 +25,10 @@ const ItemList = ({ item }) => {
                 </div>
                   <img
                  className="w-28"  
-                 src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/" + imageId} />
+                    src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/" + imageId} />
             </div>
+            <button className="py-2 px-5 bg-green-50"
+            onClick={()=> handleClick(item)}>Add +</button>
         </div>
     )
 };

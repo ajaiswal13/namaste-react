@@ -1,12 +1,16 @@
 import { LOGO_URL } from "../utils/constants";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
 const Header = () => {
   const onlineStatus = useOnlineStatus();
-  const {loggedInUser} = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
+  const cartItems = useSelector((store) => {
+    console.log(store.cart.items);
+    return store.cart.items.length;
+  })
     return(
         <div className="flex justify-between border-2 bg-orange-200">
           <div className="logo-container">
@@ -32,7 +36,9 @@ const Header = () => {
                <li className="px-4">
                 <Link to="/grocery">Grocery</Link>
                </li>
-               <li className="px-4">Cart</li>
+               <li className="px-4 font-bold">
+               <Link to="/cart">Cart({cartItems})</Link>
+               </li>
                <li className="px-4">{ loggedInUser}</li>
              </ul>
           </div>

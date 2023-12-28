@@ -57,7 +57,7 @@ import { useContext } from "react";
                     }}>Top Rated Restaurants</button>
                 </div>
                 <div className="m-4">
-                   <label className="font-bold">Change Username</label>
+                   <label className="font-bold px-5 py-1 mx-2">Change Username</label>
                    <input type="text" className="border border-solid border-black" value={loggedInUser}
                     onChange={(e) => setUserName(e.target.value)}/>
                 </div>
