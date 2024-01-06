@@ -16,7 +16,7 @@ const ItemList = ({ item }) => {
         imageId
     } = item?.card?.info
     return (
-        <div className="p-2 m-2 border-b-2 border-gray-200">
+        <div className="p-2 m-2 border-b-2 border-gray-200" data-testid="listOfItems">
             <div className="flex justify-between">
               <div className="flex flex-col items-start">
                 <span>{name}</span>

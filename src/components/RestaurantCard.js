@@ -1,6 +1,6 @@
 import { RESTAURANT_IMG } from "../utils/constants";
 const RestaurantCard = (props) => {
-   const {resData} = props;
+   const { resData } = props;
    const {
     cloudinaryImageId,
     name,
@@ -10,7 +10,7 @@ const RestaurantCard = (props) => {
     costForTwo
    } = resData?.info;
     return(
-       <div className="w-56 p-5 m-3 bg-gray-100 rounded-lg hover:shadow-xl">
+       <div data-testid="resCard" className="w-56 p-5 m-3 bg-gray-100 rounded-lg hover:shadow-xl">
            <img 
             alt="res-card" 
             className='rounded-lg'
@@ -28,7 +28,9 @@ export const withSwiggyOneLabel = (RestaurantCard) => {
    return (props) => {
       return (
            <div className="swiggy-one-filter">
-             <label className="bg-orange-600 text-white absolute m-2 p-2 rounded-lg">Open</label>
+            <label className="bg-orange-600 text-white absolute m-2 p-2 rounded-lg">
+               Offer available
+            </label>
              <RestaurantCard {...props}/>
            </div>
       );

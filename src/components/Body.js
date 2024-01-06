@@ -21,9 +21,9 @@ import { useContext } from "react";
 
     const fetchData = async () => {
             const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
-            const json = await response.json();
-            setListOfRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-            setFilteredRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            const jsonData = await response.json();
+            setListOfRestaurants(jsonData?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            setFilteredRestaurants(jsonData?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
     
     //loyaltyDiscoverPresentationInfo - Object
@@ -40,7 +40,7 @@ import { useContext } from "react";
         <div className="body">
             <div className="flex">
                 <div className="m-4">
-                   <input type="text" name="Search" className="border border-solid border-black" value={searchText}
+                   <input type="text" data-testid="searchInput" name="Search" className="border border-solid border-black" value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}/>
                    <button className="bg-blue-600 px-5 py-1 mx-2 rounded-lg text-white"
                     onClick={() => {
@@ -52,7 +52,7 @@ import { useContext } from "react";
                 </div>
                 <div className="m-4">
                     <button className="bg-blue-600 px-5 mx-2 py-1 rounded-lg text-white" onClick={() => {
-                        const filteredList = listOfRestaurants.filter(res => res.info.avgRating > 4.5);
+                        const filteredList = listOfRestaurants.filter(res => res.info.avgRating > 4.2);
                         setFilteredRestaurants(filteredList);
                     }}>Top Rated Restaurants</button>
                 </div>
@@ -67,7 +67,7 @@ import { useContext } from "react";
                     return (<Link key={restaurant.info.id} 
                              to={"/restaurants/" + restaurant.info.id}>
                                 {
-                                    restaurant.info.isOpen ? <RestaurantCardSwiggyOne resData={restaurant}/> : 
+                                    restaurant.info.aggregatedDiscountInfoV3 ? <RestaurantCardSwiggyOne resData={restaurant}/> : 
                                     <RestaurantCard resData={restaurant}/>
                                 }
                              
